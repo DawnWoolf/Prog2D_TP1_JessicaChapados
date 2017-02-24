@@ -4,38 +4,74 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextController : MonoBehaviour {
+public class TextController : MonoBehaviour
+{
+    public Button button;
+    int add = 10;
+    public Text NPCDialog;
+    public int currentChar;
+    public float nextTime;
+    public int textLevel;
+    public float interval = 0.5f;
+    public string currentText;
 
-    public Text TalkingText;
-    public float TalkSpeed;
+    string[] PlayersText = { "Yeah Sure", "Nah i am good" };
+    string[] NPCsText = { "Hi Kirby, are you enjoying your life?",
+        "Great, me to! Do you need me for anything?",
+        "Oh! I hope you will be well soon. Do you need me for anything?",
+        "Okay Then...goodbye!" };
 
-    string[] textTypeWrite = new string[] { "" };
-    int currentlyDisplayingText = 0;
-
-    void Awake()
+    void Start()
     {
-        StartCoroutine(AnimateText());
+        setTypeWriter();
+    }
+    void Update()
+    {
+        if (Time.time >= nextTime)
+        {
+            if (currentChar < NPCsText[textLevel].Length)
+            {
+                Typewriter();
+                currentChar++;
+            }
+            nextTime += interval;
+        }
+
+    }
+    void Typewriter()
+    {
+        currentText = currentText.Insert(currentChar, NPCsText[textLevel][currentChar].ToString());
+        NPCDialog.text = currentText;
     }
 
-    public void SkipToNextText()
+    void setTypeWriter()
     {
-            StopAllCoroutines();
-            currentlyDisplayingText++;
+        currentChar = 0;
+        nextTime = 0;
+        textLevel = 0;
+        currentText = " ";
+    }
 
-            if (currentlyDisplayingText > textTypeWrite.Length)
-            {
-                currentlyDisplayingText = 0;
-            }
-
-            StartCoroutine(AnimateText());
-     }
-    IEnumerator AnimateText()
+    public void onButtonYessClick()
     {
-
-        for (int i = 0; i < (textTypeWrite[currentlyDisplayingText].Length + 1); i++)
+        add = add + 1;
+    }
+    public void onButtonNoClick()
+    {
+        add = add - 1;
+    }
+    void Conversation()
+    {
+        switch(add)
         {
-            TalkingText.text = textTypeWrite[currentlyDisplayingText].Substring(0, i);
-            yield return new WaitForSeconds(0.1f);
+            case 11:
+                Debug.Log("yio");
+                break;
+            case 9:
+                Debug.Log("hilala");
+                break;
         }
     }
+
+
 }
