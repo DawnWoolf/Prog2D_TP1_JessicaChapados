@@ -6,8 +6,13 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour
 {
-    public Button button;
-    int add = 10;
+    public AudioSource audioType;
+    public AudioSource audioK;
+    // La conversation a ete fait avec l'aide d'alex :)
+    public Button button1;
+    public Button button2;
+    public Text text1;
+
     public Text NPCDialog;
     public int currentChar;
     public float nextTime;
@@ -15,10 +20,10 @@ public class TextController : MonoBehaviour
     public float interval = 0.5f;
     public string currentText;
 
-    string[] PlayersText = { "Yeah Sure", "Nah i am good" };
     string[] NPCsText = { "Hi Kirby, are you enjoying your life?",
         "Great, me to! Do you need me for anything?",
         "Oh! I hope you will be well soon. Do you need me for anything?",
+        "Okay, awesome, let's go ",
         "Okay Then...goodbye!" };
 
     void Start()
@@ -27,6 +32,10 @@ public class TextController : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            setTypeWriter();
+        }
         if (Time.time >= nextTime)
         {
             if (currentChar < NPCsText[textLevel].Length)
@@ -40,6 +49,7 @@ public class TextController : MonoBehaviour
     }
     void Typewriter()
     {
+        audioType.Play();
         currentText = currentText.Insert(currentChar, NPCsText[textLevel][currentChar].ToString());
         NPCDialog.text = currentText;
     }
@@ -49,29 +59,48 @@ public class TextController : MonoBehaviour
         currentChar = 0;
         nextTime = 0;
         textLevel = 0;
-        currentText = " ";
+        currentText = "";
     }
 
     public void onButtonYessClick()
     {
-        add = add + 1;
+        audioK.Play();
+        switch (textLevel)
+        {
+            case 0:
+                
+                NpcAnswer(1);
+                
+                 break;
+            case 1:
+                NpcAnswer(3);
+                break;
+            case 2:
+                NpcAnswer(4);
+                break;  
+                     
+        }  
     }
     public void onButtonNoClick()
     {
-        add = add - 1;
-    }
-    void Conversation()
-    {
-        switch(add)
+        switch (textLevel)
         {
-            case 11:
-                Debug.Log("yio");
+            case 0:
+                NpcAnswer(2);
                 break;
-            case 9:
-                Debug.Log("hilala");
+            case 1:
+                NpcAnswer(4);
+                break;
+            case 2:
+                NpcAnswer(6);
                 break;
         }
     }
 
-
+    void NpcAnswer(int text)
+    {
+        currentChar = 0;
+        currentText = "";
+        textLevel = text;
+    }
 }
