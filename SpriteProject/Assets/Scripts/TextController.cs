@@ -9,9 +9,9 @@ public class TextController : MonoBehaviour
     public AudioSource audioType;
     public AudioSource audioK;
     // La conversation a ete fait avec l'aide d'alex :)
-    public Button button1;
-    public Button button2;
-    public Text text1;
+   //public Button button;
+   //public Button button2;
+   //public Text text1;
 
     public Text NPCDialog;
     public int currentChar;
@@ -23,8 +23,8 @@ public class TextController : MonoBehaviour
     string[] NPCsText = { "Hi Kirby, are you enjoying your life?",
         "Great, me to! Do you need me for anything?",
         "Oh! I hope you will be well soon. Do you need me for anything?",
-        "Okay, awesome, let's go ",
-        "Okay Then...goodbye!" };
+        "Okay, awesome, let's go do your thing !(The End, press the space bar to play again.) ",
+        "Okay Then...goodbye!(The End, press the space bar to play again.) " };
 
     void Start()
     {
@@ -68,9 +68,7 @@ public class TextController : MonoBehaviour
         switch (textLevel)
         {
             case 0:
-                
                 NpcAnswer(1);
-                
                  break;
             case 1:
                 NpcAnswer(3);
